@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Service
@@ -19,6 +18,12 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void add(User user) {
+        if (user.getCar() != null) {
+            Car existingCar = userDao.findCarByModelAndSeries(user.getCar().getModel(), user.getCar().getSeries());
+            if (existingCar != null) {
+                user.setCar(existingCar);
+            }
+        }
         userDao.add(user);
     }
 

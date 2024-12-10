@@ -3,7 +3,7 @@ package hiber.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cars")
+@Table(name = "cars", uniqueConstraints = {@UniqueConstraint(columnNames = {"model", "series"})})
 public class Car {
     @Column
     private String model;
@@ -12,9 +12,10 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne
+    private User user;
 
     public Car() {
-
     }
 
     public Car(String model, int series) {
@@ -48,6 +49,6 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car " + "model " + model + ", series " + series;
+        return "Car id: " + id + ",car model " + model + ", series " + series;
     }
 }
